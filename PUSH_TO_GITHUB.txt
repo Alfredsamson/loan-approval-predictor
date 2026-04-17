@@ -1,0 +1,42 @@
+# Quick Start: Push to GitHub
+
+Your project is git-initialized and ready! Here's the quickest way to push it to GitHub:
+
+## Step 1: Create GitHub Repository
+1. Go to https://github.com/new
+2. Repository name: `loan-approval-predictor`
+3. Leave all other options default
+4. Click "Create repository"
+
+## Step 2: Add Remote and Push (Run these commands)
+
+```powershell
+cd C:\Users\ACER\Desktop\loan_web_app
+
+git remote add origin https://github.com/YOUR_USERNAME/loan-approval-predictor.git
+git branch -M main
+git push -u origin main
+```
+
+**Replace `YOUR_USERNAME` with your actual GitHub username**
+
+## Step 3: Enter Credentials
+- GitHub username: `your-github-username`
+- Password: Use a **Personal Access Token** (see GITHUB_DEPLOYMENT.md for how to create one)
+
+## That's it! 🎉
+
+Your code is now on GitHub at:
+```
+https://github.com/YOUR_USERNAME/loan-approval-predictor
+```
+
+---
+
+## Need More Help?
+
+See the detailed guide in `GITHUB_DEPLOYMENT.md` for:
+- SSH authentication setup
+- Creating Personal Access Tokens
+- Troubleshooting tips
+- Project file descriptions
