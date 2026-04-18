@@ -1,30 +1,28 @@
 // Page navigation functions
 function goToPrediction() {
-    document.getElementById('welcomePage').classList.remove('active');
+    document.getElementById('landingPage').classList.remove('active');
     document.getElementById('predictionPage').classList.add('active');
-    // Reset form
+    // Reset form and results
     document.getElementById('predictionForm').reset();
-    document.getElementById('dependentsValue').textContent = '0';
     document.getElementById('resultSection').classList.add('hidden');
     document.getElementById('loadingIndicator').classList.add('hidden');
 }
 
-function goToWelcome() {
+function goToLanding() {
     document.getElementById('predictionPage').classList.remove('active');
-    document.getElementById('welcomePage').classList.add('active');
+    document.getElementById('landingPage').classList.add('active');
     // Reset result section
     document.getElementById('resultSection').classList.add('hidden');
     document.getElementById('loadingIndicator').classList.add('hidden');
 }
 
-// Update dependents slider display
+// Form submission handler
 document.addEventListener('DOMContentLoaded', function() {
-    const slider = document.getElementById('no_of_dependents');
-    const valueDisplay = document.getElementById('dependentsValue');
-
-    if (slider) {
-        slider.addEventListener('input', function() {
-            valueDisplay.textContent = this.value;
+    const form = document.getElementById('predictionForm');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            predictLoanStatus();
         });
     }
 });
@@ -41,10 +39,11 @@ async function predictLoanStatus() {
             loan_amount: document.getElementById('loan_amount').value,
             loan_term: document.getElementById('loan_term').value,
             cibil_score: document.getElementById('cibil_score').value,
-            residential_assets_value: document.getElementById('residential_assets_value').value,
-            commercial_assets_value: document.getElementById('commercial_assets_value').value,
-            luxury_assets_value: document.getElementById('luxury_assets_value').value,
-            bank_asset_value: document.getElementById('bank_asset_value').value
+            // Set default values for removed fields
+            residential_assets_value: 0,
+            commercial_assets_value: 0,
+            luxury_assets_value: 0,
+            bank_asset_value: 0
         };
 
         // Validate required fields
@@ -53,7 +52,7 @@ async function predictLoanStatus() {
             return;
         }
 
-        // Show loading indicator
+        // Show loading indicator and hide results
         document.getElementById('loadingIndicator').classList.remove('hidden');
         document.getElementById('resultSection').classList.add('hidden');
 
@@ -87,8 +86,9 @@ async function predictLoanStatus() {
 function displayResult(loanStatus, suggestions) {
     const resultSection = document.getElementById('resultSection');
     const resultBox = document.getElementById('resultBox');
-    const resultText = document.getElementById('resultText');
-    const successMessage = document.getElementById('successMessage');
+    const resultIcon = document.getElementById('resultIcon');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultMessage = document.getElementById('resultMessage');
     const suggestionsSection = document.getElementById('suggestionsSection');
     const suggestionsList = document.getElementById('suggestionsList');
 
@@ -99,21 +99,22 @@ function displayResult(loanStatus, suggestions) {
     if (loanStatus === 'Approved') {
         // Show approved result
         resultBox.classList.add('approved');
-        resultText.innerHTML = 'Loan Status: <strong>Approved</strong> 🎉';
-        successMessage.classList.remove('hidden');
+        resultIcon.innerHTML = '✅';
+        resultTitle.textContent = 'Loan Approved!';
+        resultMessage.textContent = 'Congratulations! Your loan application is likely to be approved based on the provided information.';
         suggestionsSection.classList.add('hidden');
     } else {
         // Show rejected result
         resultBox.classList.add('rejected');
-        resultText.innerHTML = 'Loan Status: <strong>Rejected</strong> 😞';
-        successMessage.classList.add('hidden');
+        resultIcon.innerHTML = '❌';
+        resultTitle.textContent = 'Loan Rejected';
+        resultMessage.textContent = 'Your loan application is likely to be rejected. Here are some suggestions to improve your chances:';
 
         // Display suggestions
         if (suggestions && suggestions.length > 0) {
             suggestionsSection.classList.remove('hidden');
             suggestions.forEach(suggestion => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.className = 'suggestion-item';
+                const suggestionItem = document.createElement('li');
                 suggestionItem.textContent = suggestion;
                 suggestionsList.appendChild(suggestionItem);
             });
@@ -122,24 +123,9 @@ function displayResult(loanStatus, suggestions) {
         }
     }
 
-    // Show result section
+    // Show result section and scroll to it
     resultSection.classList.remove('hidden');
-
-    // Scroll to result
     setTimeout(() => {
         resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 100);
 }
-
-// Allow Enter key to submit form
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('predictionForm');
-    if (form) {
-        form.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                predictLoanStatus();
-            }
-        });
-    }
-});

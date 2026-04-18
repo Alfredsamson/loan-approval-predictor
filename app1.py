@@ -166,14 +166,14 @@ def prediction_page():
     no_of_dependents = st.slider("Number of Dependents", 0, 10, 0)
     education = st.selectbox("Education", [' Graduate', ' Not Graduate'])
     self_employed = st.selectbox("Self Employed", [' Yes', ' No'])
-    income_annum = st.number_input("Annual Income (in $) ", min_value=0.0, format="%f")
-    loan_amount = st.number_input("Loan Amount (in $)", min_value=0.0, format="%f")
+    income_annum = st.number_input("Annual Income (in ₦) ", min_value=0.0, format="%f")
+    loan_amount = st.number_input("Loan Amount (in ₦)", min_value=0.0, format="%f")
     loan_term = st.number_input("Loan Term (in years)", min_value=1, format="%d")
     cibil_score = st.number_input("CIBIL Score", min_value=300, max_value=900, value=700)
-    residential_assets_value = st.number_input("Residential Assets Value (in $)", min_value=0.0, format="%f")
-    commercial_assets_value = st.number_input("Commercial Assets Value (in $)", min_value=0.0, format="%f")
-    luxury_assets_value = st.number_input("Luxury Assets Value (in $)", min_value=0.0, format="%f")
-    bank_asset_value = st.number_input("Bank Asset Value (in $)", min_value=0.0, format="%f")
+    residential_assets_value = st.number_input("Residential Assets Value (in ₦)", min_value=0.0, format="%f")
+    commercial_assets_value = st.number_input("Commercial Assets Value (in ₦)", min_value=0.0, format="%f")
+    luxury_assets_value = st.number_input("Luxury Assets Value (in ₦)", min_value=0.0, format="%f")
+    bank_asset_value = st.number_input("Bank Asset Value (in ₦)", min_value=0.0, format="%f")
 
 
     if st.button("Predict Loan Status"):
